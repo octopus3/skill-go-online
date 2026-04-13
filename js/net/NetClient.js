@@ -8,6 +8,8 @@ export class NetClient {
     this.clientId = null;
     this.onMessage = onMessage || null;
     this.onStatus = onStatus || null;
+    /** @type {any[]} */
+    this._pending = [];
   }
 
   connect() {
@@ -16,7 +18,12 @@ export class NetClient {
     }
     this.ws = new WebSocket(this.url);
     this.onStatus?.({ connected: false, message: "连接中…" });
-    this.ws.addEventListener("open", () => this.onStatus?.({ connected: true, message: "已连接" }));
+    this.ws.addEventListener("open", () => {
+      this.onStatus?.({ connected: true, message: "已连接" });
+      const pending = this._pending;
+      this._pending = [];
+      for (const msg of pending) this.send(msg);
+    });
     this.ws.addEventListener("close", () => this.onStatus?.({ connected: false, message: "连接已断开" }));
     this.ws.addEventListener("error", () => this.onStatus?.({ connected: false, message: "连接错误" }));
     this.ws.addEventListener("message", (e) => {
@@ -37,8 +44,15 @@ export class NetClient {
     return true;
   }
 
+  sendQueued(msg) {
+    if (this.send(msg)) return true;
+    this._pending.push(msg);
+    return true;
+  }
+
   join(roomId) {
-    return this.send({ type: "join", roomId });
+    this.connect();
+    return this.sendQueued({ type: "join", roomId });
   }
 }
 

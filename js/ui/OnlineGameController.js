@@ -112,8 +112,7 @@ export class OnlineGameController extends GameController {
       onMessage: (msg) => this._onNetMessage(msg),
     });
     this.net.connect();
-    // join once connected (small delay is fine)
-    setTimeout(() => this.net?.join(room), 100);
+    this.net.join(room);
   }
 
   _onNetMessage(msg) {
