@@ -1,0 +1,264 @@
+:root {
+  --bg: #1c1917;
+  --panel: #292524;
+  --text: #fafaf9;
+  --muted: #a8a29e;
+  --accent: #d97706;
+  --accent-dim: #92400e;
+  --danger: #b91c1c;
+  --line: #44403c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: radial-gradient(ellipse at top, #292524 0%, var(--bg) 55%);
+  color: var(--text);
+}
+
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.screen.hidden {
+  display: none;
+}
+
+.hero {
+  text-align: center;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 2.25rem;
+  letter-spacing: 0.08em;
+}
+
+.subtitle {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.setup-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: min(100%, 520px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.field select,
+.skill-select {
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.field .text {
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.online-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--line);
+  opacity: 0.8;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.row.actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.subtitle.small {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.btn {
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, var(--accent), var(--accent-dim));
+  border-color: var(--accent);
+  font-weight: 600;
+  padding: 0.65rem 1.75rem;
+}
+
+.btn.warn {
+  border-color: var(--danger);
+  color: #fecaca;
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  max-width: 900px;
+}
+
+.turn {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.round {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.game-layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+}
+
+.side-panel {
+  width: 160px;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.side-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.side-panel .caps {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.side-panel .skill-name {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.side-panel.panel-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(217, 119, 6, 0.35);
+}
+
+.board-wrap {
+  flex: 1 1 360px;
+  max-width: min(72vmin, 640px);
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid #3f3f46;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+#board {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.hint {
+  min-height: 1.5rem;
+  margin: 0;
+  text-align: center;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.game-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+@media (max-width: 800px) {
+  .side-panel {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+
+@media (min-width: 760px) {
+  .row {
+    grid-template-columns: 0.9fr 1.1fr 1fr;
+  }
+}

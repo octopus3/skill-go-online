@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>技能围棋</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section id="screen-start" class="screen">
+        <header class="hero">
+          <h1>技能围棋</h1>
+          <p class="subtitle">双人本地对战 · 开局各选一组技能</p>
+        </header>
+        <div class="setup-grid">
+          <label class="field">
+            <span>棋盘大小</span>
+            <select id="select-size"></select>
+          </label>
+          <label class="field">
+            <span>黑方技能</span>
+            <select id="select-skill-b" class="skill-select"></select>
+          </label>
+          <label class="field">
+            <span>白方技能</span>
+            <select id="select-skill-w" class="skill-select"></select>
+          </label>
+        </div>
+        <button type="button" id="btn-start" class="btn primary">开始游戏</button>
+      </section>
+
+      <section id="screen-game" class="screen hidden">
+        <header class="game-top">
+          <div id="turn-text" class="turn">黑方行棋</div>
+          <div class="round">回合 <span id="round-num">1</span></div>
+        </header>
+        <div class="game-layout">
+          <aside class="side-panel" id="panel-black">
+            <h2>黑方</h2>
+            <p class="caps">提子：<span id="cap-black">0</span></p>
+            <p class="skill-name">—</p>
+            <button type="button" class="btn-skill btn" id="btn-skill-black">
+              使用技能
+            </button>
+          </aside>
+          <div class="board-wrap" id="board-wrap">
+            <canvas id="board" width="640" height="640" aria-label="围棋棋盘"></canvas>
+          </div>
+          <aside class="side-panel" id="panel-white">
+            <h2>白方</h2>
+            <p class="caps">提子：<span id="cap-white">0</span></p>
+            <p class="skill-name">—</p>
+            <button type="button" class="btn-skill btn" id="btn-skill-white">
+              使用技能
+            </button>
+          </aside>
+        </div>
+        <p id="hint-text" class="hint" role="status"></p>
+        <footer class="game-footer">
+          <button type="button" id="btn-cancel-skill" class="btn ghost">
+            取消技能选择
+          </button>
+          <button type="button" id="btn-undo" class="btn">悔棋</button>
+          <button type="button" id="btn-resign" class="btn warn">认输</button>
+          <button type="button" id="btn-new" class="btn">返回菜单</button>
+        </footer>
+      </section>
+    </div>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
