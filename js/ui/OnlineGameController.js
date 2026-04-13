@@ -4,14 +4,10 @@ import { PLAYER_BLACK, PLAYER_WHITE } from "../config/constants.js";
 import { GoGame } from "../core/GoGame.js";
 import { SkillManager } from "../skills/SkillManager.js";
 
-function wsUrlFromHttp(httpUrl) {
-  try {
-    const u = new URL(httpUrl);
-    u.protocol = u.protocol === "https:" ? "wss:" : "ws:";
-    return u.toString();
-  } catch {
-    return httpUrl;
-  }
+function wsUrlFromOrigin(origin) {
+  const u = new URL(origin);
+  u.protocol = u.protocol === "https:" ? "wss:" : "ws:";
+  return u.toString();
 }
 
 export class OnlineGameController extends GameController {
@@ -45,10 +41,6 @@ export class OnlineGameController extends GameController {
           </select>
         </label>
         <label class="field">
-          <span>服务器</span>
-          <input id="input-server" class="text" placeholder="http://localhost:5173" />
-        </label>
-        <label class="field">
           <span>房间号</span>
           <input id="input-room" class="text" placeholder="例如: room123" />
         </label>
@@ -62,13 +54,11 @@ export class OnlineGameController extends GameController {
     grid.appendChild(wrap);
 
     this.selectMode = document.getElementById("select-mode");
-    this.inputServer = document.getElementById("input-server");
     this.inputRoom = document.getElementById("input-room");
     this.btnJoinRoom = document.getElementById("btn-join-room");
     this.elNetStatus = document.getElementById("net-status");
     this.elRoomHint = document.getElementById("room-hint");
 
-    this.inputServer.value = `${location.origin}`;
     this.inputRoom.value = `room-${Math.random().toString(36).slice(2, 6)}`;
 
     this.selectMode.addEventListener("change", () => {
@@ -88,7 +78,7 @@ export class OnlineGameController extends GameController {
     this.selectSkillB.disabled = false;
     this.selectSkillW.disabled = false;
     this.elRoomHint.textContent = isOnline
-      ? "在线模式：两人加入同一房间后，黑方点击“开始游戏”并同步给白方。"
+      ? "在线模式：两人输入同一房间号并加入后，黑方点击“开始游戏”同步给白方。"
       : "";
   }
 
@@ -98,14 +88,13 @@ export class OnlineGameController extends GameController {
 
   _connectAndJoin() {
     if (this.mode !== "online") return;
-    const server = (this.inputServer.value || "").trim();
     const room = (this.inputRoom.value || "").trim();
-    if (!server || !room) {
-      this._setNetStatus("请填写服务器与房间号");
+    if (!room) {
+      this._setNetStatus("请填写房间号");
       return;
     }
     this.roomId = room;
-    const url = wsUrlFromHttp(server);
+    const url = wsUrlFromOrigin(location.origin);
     this.net = new NetClient({
       url,
       onStatus: (s) => this._setNetStatus(s.message || (s.connected ? "已连接" : "未连接")),
